@@ -90,6 +90,7 @@ For Franka deployment, complete the local Polymetis and robot setup described in
 ## 1. Convert UMI Data
 
 The converter accepts a UMI/Franka Zarr directory or <code>.zarr.zip</code> archive and writes an RDP-compatible dataset containing <code>replay_buffer.zarr</code>.
+The UMI Data can be obtained from the data collection repo https://github.com/pigwu/ARPoseStreamer.
 
 ### Recommended conversion
 
