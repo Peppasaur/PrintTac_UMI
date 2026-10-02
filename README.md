@@ -29,21 +29,6 @@ Convert UMI recordings into training-ready datasets, train diffusion policies, a
 - **Real Franka deployment** through Polymetis with iPhone/OpenCV camera support.
 - **Evaluation recording** for RGB video, magnetic traces, overlays, and vector visualization.
 
-## End-to-End Pipeline
-
-~~~mermaid
-flowchart LR
-    A[UMI recording] --> B[traj_command.zarr.zip]
-    B --> C[convert_umi_traj_to_rdp_dataset.py]
-    C --> D[replay_buffer.zarr]
-    D --> E[train_dp.sh]
-    D --> F[train_dp_first_frame.sh]
-    E --> G[latest.ckpt]
-    F --> G
-    G --> H[eval.sh]
-    H --> I[Franka execution]
-    H --> J[Video and magnetic traces]
-~~~
 
 ## Repository Layout
 
