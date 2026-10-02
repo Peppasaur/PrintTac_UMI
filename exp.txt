@@ -1,0 +1,252 @@
+sudo bash -c 'for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance > $cpu; done'
+
+sudo pkill -f "/home/shuwang/.conda/envs/polymetis/bin/run_server"
+
+conda activate polymetis
+taskset -c 0-15 launch_robot.py \
+  robot_client=franka_hardware \
+  robot_client.executable_cfg.robot_ip=172.16.0.2 \
+  ip=127.0.0.1 \
+  'robot_client.executable_cfg.limits.cartesian_pos_lower=[0.1,-0.65,-0.05]' \
+  'robot_client.executable_cfg.limits.cartesian_pos_upper=[1.0,0.7,1.0]' \
+  robot_client.executable_cfg.safety_controller.margins.cartesian_pos=0.02 \
+  port=50051
+
+conda activate polymetis
+
+sudo pkill -9 run_server
+ENABLE_GRIPPER=1 scripts/franka_polymetis_robot_server.sh
+
+
+DEFAULT_GRIPPER_WIDTH=0.0 \
+
+ENABLE_GRIPPER=0 \
+scripts/franka_polymetis_robot_server.sh
+
+conda activate polymetis
+ROBOTIQ_PORT=/dev/ttyUSB1 scripts/franka_polymetis_launch_gripper.sh
+
+conda activate umi
+
+python scripts/replay_franka_polymetis_dataset.py \
+  --input dataset/iphone.zarr \
+  --pose-source obs \
+  --gripper-source obs \
+  --enable-gripper \
+  --gripper-signal-mode open_ratio \
+  --gripper-stroke 0.085 \
+  --time-scale 1.0 \
+  --move-to-start-duration 8.0 \
+  --move-to-start-frequency 20.0 \
+  --tcp-request-timeout 1.0 \
+  --execute
+
+python scripts/replay_franka_polymetis_dataset.py \
+  --input dataset/dataset.zarr.zip \
+  --pose-source obs \
+  --gripper-source obs \
+  --enable-gripper \
+  --gripper-signal-mode open_ratio \
+  --gripper-stroke 0.085 \
+  --time-scale 1.0 \
+  --move-to-start-duration 8.0 \
+  --move-to-start-frequency 20.0 \
+  --tcp-request-timeout 1.0 \
+  --execute
+
+gripper串口：/dev/ttyUSB1
+
+conda activate umi
+python scripts/eval_franka_polymetis_policy.py \
+  --input data/outputs/2026.05.22/14.41.38_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt  \
+  --match-dataset dataset/traj.zarr.zip \
+  --match-episode 30 \
+  --execute \
+  --enable-gripper \
+  --max-duration 100 \
+  --verbose
+
+OPEN_GRIPPER_ON_START=False \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=realsense \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.07.06/21.30.23_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/100.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_downsample2 \
+RESET_EPISODE=5 \
+MAX_DURATION=100 \
+bash eval.sh
+
+CONTACT_ACTION_SCALE_MODE=magnet \
+CONTACT_ACTION_SCALE_THRESHOLD=500.0 \
+CONTACT_ACTION_SCALE_MAGNET_DIVISOR=600.0 \
+CONTACT_ACTION_SCALE_MAX_TRANSLATION=0.03 \
+
+OPEN_GRIPPER_ON_START=False \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=realsense \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.07.06/21.53.42_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_downsample2 \
+RESET_EPISODE=15 \
+MAX_DURATION=100 \
+MAGNET_PORT=/dev/ttyACM0 \
+bash eval.sh
+
+OPEN_GRIPPER_ON_START=False \
+IGNORE_GRIPPER_COMMANDS=True \
+RELATIVE_ACTION=True \
+CONFIG_NAME=train_latent_diffusion_unet_real_image_workspace \
+AT=at_wipe_lift_12fps \
+AT_LOAD_DIR=data/outputs/2026.07.08/17.57.46_train_vae_real_wipe_image_gelsight_emb_at_absolute_12fps_0708175745/checkpoints/latest.ckpt \
+TASK=franka_polymetis_image_gelsight_emb_ldp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.07.08/18.02.58_train_latent_diffusion_unet_image_real_wipe_image_gelsight_emb_ldp_absolute_12fps_0708175745/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2 \
+RESET_EPISODE=5 \
+MAX_DURATION=100 \
+CAMERA_BACKEND=realsense \
+CAMERA_SOURCE=auto \
+MAGNET_PORT=/dev/ttyACM0 \
+MAGNET_READER_SUBTRACT_BASELINE=True \
+MAGNET_NORMALIZE_TO_FIRST_FRAME=False \
+MAGNET_FILTER_ABNORMAL_READINGS=True \
+MOVE_TO_START_DURATION=8.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+DEBUG_POLICY_ACTIONS=True \
+DEBUG_POLICY_ACTION_EVERY=1 \
+bash eval.sh
+
+
+
+BATCH_SIZE=64 NUM_WORKERS=2 PERSISTENT_WORKERS=False PREFETCH_FACTOR=1 NUM_EPOCHS=600 bash train_dp.sh
+
+#实际位姿作为action
+python scripts/convert_umi_traj_to_rdp_dataset.py \
+  --input dataset/traj_command.zarr.zip \
+  --output dataset/traj_rdp10d_command_downsample2 \
+  --preset rdp10d \
+  --temporal-downsample 2 \
+  --image-size 240 320 \
+  --action-source next_obs \
+  --overwrite \
+  --validate
+
+#command作为action
+python scripts/convert_umi_traj_to_rdp_dataset.py \
+  --input dataset/traj_command.zarr.zip \
+  --output dataset/traj_rdp10d_command_downsample2 \
+  --preset rdp10d \
+  --temporal-downsample 2 \
+  --image-size 240 320 \
+  --action-source source \
+  --overwrite \
+  --validate
+
+python scripts/convert_umi_traj_to_rdp_dataset.py \
+  --input /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source.zarr \
+  --output dataset/traj_rdp10d_command_downsample5_chip_umi \
+  --preset rdp10d \
+  --temporal-downsample 5\
+  --image-size 240 320 \
+  --filter-pose-jumps \
+  --overwrite \
+  --validate \
+  --require-magnet2 \
+  --copy-magnet-timestamps \
+
+RELATIVE_ACTION=True \
+RELATIVE_GRIPPER_ACTION=False \
+TASK=real_wipe_image_gelsight_emb_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_chip_umi \
+BATCH_SIZE=64 \
+NUM_WORKERS=2 \
+PERSISTENT_WORKERS=False \
+PREFETCH_FACTOR=1 \
+NUM_EPOCHS=200 \
+bash train_dp.sh
+
+RELATIVE_ACTION=True \
+TASK=real_wipe_image_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_insert_umi \
+BATCH_SIZE=64 \
+NUM_WORKERS=2 \
+PERSISTENT_WORKERS=False \
+PREFETCH_FACTOR=1 \
+NUM_EPOCHS=150 \
+bash train_dp.sh
+
+#double sensor
+RELATIVE_ACTION=True \
+RELATIVE_GRIPPER_ACTION=False \
+CONFIG_NAME=train_diffusion_unet_real_image_workspace \
+TASK=real_wipe_image_dual_magnet_emb_dp_absolute_12fps \
+TASK_NAME=chip_umi_dual_magnet_emb_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_chip_umi \
+BATCH_SIZE=64 \
+NUM_WORKERS=2 \
+PERSISTENT_WORKERS=False \
+PREFETCH_FACTOR=1 \
+NUM_EPOCHS=200 \
+bash train_dp.sh
+
+RELATIVE_ACTION=True \
+RELATIVE_GRIPPER_ACTION=False \
+CONFIG_NAME=train_diffusion_unet_real_image_workspace \
+TASK=real_wipe_image_dual_magnet_emb_dp_absolute_12fps \
+TASK_NAME=chip_umi_dual_magnet_emb_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_chip_umi \
+BATCH_SIZE=64 \
+NUM_WORKERS=2 \
+PERSISTENT_WORKERS=False \
+PREFETCH_FACTOR=1 \
+NUM_EPOCHS=200 \
+bash train_dp.sh
+
+RELATIVE_ACTION=True \
+EXCLUDE_TCP_OBS=False \
+TASK=real_wipe_image_gelsight_emb_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_blind_demo \
+NUM_EPOCHS=150 \
+bash train_dp_first_frame.sh
+
+RELATIVE_ACTION=True \
+EXCLUDE_TCP_OBS=False \
+TASK=real_wipe_image_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_blind_demo \
+NUM_EPOCHS=150 \
+bash train_dp_first_frame.sh
+
+#dual sensor
+RELATIVE_ACTION=True \
+TASK=real_wipe_image_dual_magnet_emb_dp_absolute_12fps \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_chip_umi \
+NUM_EPOCHS=150 \
+bash train_dp_first_frame.sh
+
+能否把每个维度归一化的方式改成神经网络批量归一化的方式（使用均值和方差）
+
+RELATIVE_ACTION=True \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample5_wipe_plus \
+BATCH_SIZE=64 \
+NUM_WORKERS=2 \
+PERSISTENT_WORKERS=False \
+PREFETCH_FACTOR=1 \
+NUM_EPOCHS=150 \
+LOGGING_MODE=disabled \
+bash train_rdp.sh
+
+不要纠结训练和eval数据源不同的问题了，我是尽量保证它们的采集条件一致的。帮我修改experiment_replay_ui.py 数据导出里的磁传感器部分，使得和eval的时候一致
+HTTPS_PROXY=http://127.0.0.1:7897 \
+HTTP_PROXY=http://127.0.0.1:7897 codex
+
+  conda run --no-capture-output -n umi bash eval_iphone_aligned.sh
+
+10.16.43.102
+
+
+bash run_render.sh

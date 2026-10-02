@@ -1,0 +1,23 @@
+defaults:
+  - real_wipe_image_gelsight_emb_ldp_24fps
+  - _self_
+
+name: real_wipe_image_gelsight_emb_ldp_absolute_12fps
+dataset_path: data/wipe_v1_zarr
+
+env_runner:
+  tcp_action_update_interval: 8
+  gripper_action_update_interval: 8
+  latency_step: 2
+  gripper_latency_step: 4
+  control_fps: 12
+  inference_fps: 6
+  obs_temporal_downsample_ratio: 1
+  dataset_obs_temporal_downsample_ratio: ${dataset_obs_temporal_downsample_ratio}
+  downsample_extended_obs: False
+
+dataset:
+  obs_temporal_downsample_ratio: ${dataset_obs_temporal_downsample_ratio}
+  relative_action: True
+  gaussian_normalizer_keys:
+    - left_gripper1_marker_offset_emb

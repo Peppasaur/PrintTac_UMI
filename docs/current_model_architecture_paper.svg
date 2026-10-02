@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+    <style>
+      .title { font: 700 29px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 14px Arial, sans-serif; fill: #64748b; }
+      .section { font: 700 17px Arial, sans-serif; fill: #1f2937; }
+      .head { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .body { font: 14px Arial, sans-serif; fill: #334155; }
+      .small { font: 12px Arial, sans-serif; fill: #64748b; }
+      .box { stroke-width: 1.8; }
+      .flow { fill: none; stroke: #475569; stroke-width: 2.2; marker-end: url(#arrow); }
+      .condition { fill: none; stroke: #7c3aed; stroke-width: 2; stroke-dasharray: 7 5; marker-end: url(#arrow-purple); }
+      .output { fill: none; stroke: #dc2626; stroke-width: 2.2; marker-end: url(#arrow-red); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="620" fill="#ffffff"/>
+  <text x="800" y="48" text-anchor="middle" class="title">Multimodal Conditional Diffusion Policy</text>
+  <text x="800" y="75" text-anchor="middle" class="subtitle">Compact architecture overview</text>
+
+  <!-- Multimodal observation -->
+  <rect x="45" y="130" width="310" height="300" rx="18" fill="#f8fbff" stroke="#93c5fd" class="box"/>
+  <text x="200" y="162" text-anchor="middle" class="section">Multimodal observation</text>
+
+  <rect x="78" y="195" width="244" height="65" rx="12" fill="#dbeafe" stroke="#2563eb" class="box"/>
+  <text x="200" y="222" text-anchor="middle" class="head">Two consecutive frames</text>
+  <text x="200" y="244" text-anchor="middle" class="body">t-1 and t</text>
+
+  <rect x="78" y="285" width="112" height="105" rx="12" fill="#e0f2fe" stroke="#0284c7" class="box"/>
+  <text x="134" y="312" text-anchor="middle" class="head">Vision</text>
+  <text x="134" y="337" text-anchor="middle" class="body">RGB image</text>
+  <text x="134" y="359" text-anchor="middle" class="body">ResNet-18</text>
+  <text x="134" y="381" text-anchor="middle" class="small">512D</text>
+
+  <rect x="210" y="285" width="112" height="105" rx="12" fill="#ecfdf5" stroke="#059669" class="box"/>
+  <text x="266" y="312" text-anchor="middle" class="head">Robot state</text>
+  <text x="266" y="337" text-anchor="middle" class="body">TCP + gripper</text>
+  <text x="266" y="359" text-anchor="middle" class="body">tactile</text>
+  <text x="266" y="381" text-anchor="middle" class="small">25D</text>
+
+  <path d="M200 260 L134 285" class="flow"/>
+  <path d="M200 260 L266 285" class="flow"/>
+
+  <!-- Fusion -->
+  <rect x="430" y="130" width="300" height="300" rx="18" fill="#fffcf3" stroke="#fbbf24" class="box"/>
+  <text x="580" y="162" text-anchor="middle" class="section">Conditioning</text>
+
+  <rect x="465" y="215" width="230" height="72" rx="12" fill="#fef3c7" stroke="#d97706" class="box"/>
+  <text x="580" y="243" text-anchor="middle" class="head">Feature fusion</text>
+  <text x="580" y="267" text-anchor="middle" class="body">537D per frame</text>
+
+  <rect x="465" y="325" width="230" height="72" rx="12" fill="#ede9fe" stroke="#7c3aed" class="box"/>
+  <text x="580" y="353" text-anchor="middle" class="head">Temporal + time condition</text>
+  <text x="580" y="377" text-anchor="middle" class="body">1074D obs + diffusion step</text>
+
+  <path d="M355 330 L465 250" class="flow"/>
+  <path d="M695 287 L695 325 L580 325" class="condition"/>
+
+  <!-- Diffusion policy -->
+  <rect x="805" y="130" width="390" height="300" rx="18" fill="#fbfaff" stroke="#c4b5fd" class="box"/>
+  <text x="1000" y="162" text-anchor="middle" class="section">Diffusion policy</text>
+
+  <rect x="840" y="215" width="150" height="95" rx="12" fill="#f3e8ff" stroke="#7c3aed" class="box"/>
+  <text x="915" y="244" text-anchor="middle" class="head">Noisy action</text>
+  <text x="915" y="269" text-anchor="middle" class="body">trajectory</text>
+  <text x="915" y="292" text-anchor="middle" class="small">16 x 10D</text>
+
+  <rect x="1010" y="195" width="150" height="135" rx="12" fill="#ede9fe" stroke="#7c3aed" class="box"/>
+  <text x="1085" y="226" text-anchor="middle" class="head">Conditional</text>
+  <text x="1085" y="249" text-anchor="middle" class="head">1D U-Net</text>
+  <text x="1085" y="277" text-anchor="middle" class="body">512-1024-2048</text>
+  <text x="1085" y="299" text-anchor="middle" class="body">residual blocks</text>
+  <text x="1085" y="321" text-anchor="middle" class="small">FiLM conditioning</text>
+
+  <path d="M730 360 L1010 260" class="condition"/>
+  <path d="M990 262 L1010 262" class="flow"/>
+
+  <!-- Output -->
+  <rect x="1270" y="130" width="285" height="300" rx="18" fill="#fff8f5" stroke="#fdba74" class="box"/>
+  <text x="1412" y="162" text-anchor="middle" class="section">Action generation</text>
+
+  <rect x="1305" y="215" width="215" height="75" rx="12" fill="#ffedd5" stroke="#ea580c" class="box"/>
+  <text x="1412" y="244" text-anchor="middle" class="head">DDIM denoising</text>
+  <text x="1412" y="268" text-anchor="middle" class="body">100 inference steps</text>
+
+  <rect x="1305" y="325" width="215" height="75" rx="12" fill="#fecaca" stroke="#dc2626" class="box"/>
+  <text x="1412" y="354" text-anchor="middle" class="head">10D robot action</text>
+  <text x="1412" y="378" text-anchor="middle" class="body">TCP + rotation + gripper</text>
+
+  <path d="M1160 262 L1305 252" class="output"/>
+  <path d="M1412 290 L1412 325" class="output"/>
+
+  <!-- Main annotations -->
+  <text x="800" y="505" text-anchor="middle" class="small">TCP actions are represented relative to the latest observed pose; gripper action is absolute.</text>
+  <text x="800" y="535" text-anchor="middle" class="small">The policy is executed in a receding-horizon loop at 12 Hz.</text>
+  <text x="800" y="580" text-anchor="middle" class="small">Training objective: epsilon prediction with mean-squared diffusion loss.</text>
+</svg>

@@ -1,0 +1,486 @@
+#iphone作为摄像头
+  CAMERA_PREPROCESS_MODE=square_crop \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_up.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.07.28/01.01.00_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2 \
+MAX_DURATION=100 \
+bash eval.sh
+
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose_up.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+  CKPT_PATH=data/outputs/2026.07.26/16.43.01_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample2 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+data/outputs/2026.07.26/21.07.18_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.07.27/17.39.41_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+  CKPT_PATH=data/outputs/2026.07.27/17.39.41_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample2 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+#iphone作为摄像头，wipe
+ FIXED_GRIPPER_WIDTH_MM=43 \
+
+MAGNET_REZERO_AFTER_POLICY_START_SEC=1.0 \
+  GRIPPER_COMMAND_WIDTH_OFFSET=-0.00 \
+  GRIPPER_SIGNAL_SOURCE=umi_marker \
+  CAMERA_PREPROCESS_MODE=square_crop \
+ FIXED_GRIPPER_WIDTH_MM=43 \
+  OPEN_GRIPPER_ON_START=False \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+  CKPT_PATH=../data/outputs/2026.08.11/23.04.56_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample5 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+data/outputs/2026.08.11/23.04.56_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+data/outputs/2026.08.11/17.20.17_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.11/17.50.15_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.11/23.34.27_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+暂时能work:data/outputs/2026.07.30/20.36.21_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+完整wipe:data/outputs/2026.07.29/21.59.54_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+FIXED_GRIPPER_WIDTH_MM=44 \
+
+  GRIPPER_COMMAND_WIDTH_OFFSET=-0.00 \
+GRIPPER_SIGNAL_SOURCE=umi_marker \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  START_GRIPPER_WIDTH_MM=44 \
+OPEN_GRIPPER_ON_START=False \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=../data/outputs/2026.08.12/00.13.16_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2 \
+MAX_DURATION=100 \
+bash eval.sh
+
+data/outputs/2026.08.11/17.37.38_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+
+#使用ARpose（擦黑板）
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe_tele.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/17.04.56_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe_tele.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/16.35.26_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+GRIPPER_SIGNAL_SOURCE=teleop_width \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe_tele.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/20.07.18_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+#使用ARpose（罐头）
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_can.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/20.37.16_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+#使用UMI（chip）
+0.005
+  CAMERA_COLOR_MATCH_DATASET_START=False \
+  GRIPPER_COMMAND_WIDTH_OFFSET=0.006 \
+  GRIPPER_SIGNAL_SOURCE=umi_marker \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose_chip.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+  CKPT_PATH=../data/outputs/2026.08.11/13.06.21_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample5 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+  chip:data/outputs/2026.08.07/17.01.55_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+  data/outputs/2026.08.09/00.06.39_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+  data/outputs/2026.08.09/14.52.25_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/epoch90.ckpt
+  data/outputs/2026.08.09/20.15.51_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+  data/outputs/2026.08.09/20.50.44_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.09/23.33.26_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.10/10.47.59_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.11/13.06.21_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+  GRIPPER_COMMAND_WIDTH_OFFSET=0.006 \
+  GRIPPER_SIGNAL_SOURCE=umi_marker \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose_chip.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_dp_absolute_12fps \
+  CKPT_PATH=../data/outputs/2026.08.11/13.40.57_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample5 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+data/outputs/2026.08.07/17.48.34_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.09/15.43.20_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/epoch60.ckpt
+data/outputs/2026.08.10/00.17.10_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+data/outputs/2026.08.11/13.40.57_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+
+
+#使用UMI（罐头）
+  GRIPPER_COMMAND_WIDTH_OFFSET=-0.00 \
+  GRIPPER_SIGNAL_SOURCE=umi_marker \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  MOVE_TO_START_POSE_PATH=dataset/current_pose_insert1.json \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_dp_absolute_12fps \
+  CKPT_PATH=data/outputs/2026.08.07/14.12.30_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/epoch60.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample5 \
+  MAX_DURATION=100 \
+  bash eval.sh
+
+CAMERA_COLOR_MATCH_DATASET_START=False \
+CAMERA_PREPROCESS_MODE=square_crop \
+CAMERA_SQUARE_CROP_BOTTOM_ROWS=16 \
+FIXED_GRIPPER_WIDTH_MM=25 \
+GRIPPER_OBS_MODE=commanded \
+GRIPPER_COMMAND_WIDTH_OFFSET=-0.00 \
+GRIPPER_SIGNAL_SOURCE=umi_marker \
+CAMERA_PREPROCESS_MODE=square_crop \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_insert2.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=../data/outputs/2026.08.23/11.51.36_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_insert \
+MAX_DURATION=100 \
+bash eval.sh
+
+data/outputs/2026.08.22/23.54.40_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+5
+4  
+
+CAMERA_COLOR_MATCH_DATASET_START=True \
+CAMERA_PREPROCESS_MODE=square_crop \
+CAMERA_SQUARE_CROP_BOTTOM_ROWS=16 \
+FIXED_GRIPPER_WIDTH_MM=25 \
+GRIPPER_OBS_MODE=commanded \
+GRIPPER_COMMAND_WIDTH_OFFSET=-0.00 \
+GRIPPER_SIGNAL_SOURCE=umi_marker \
+CAMERA_PREPROCESS_MODE=square_crop \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_insert2.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+MOVE_TO_START_DURATION=5.0 \
+MOVE_TO_START_FREQUENCY=20.0 \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.07/22.19.13_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_insert \
+MAX_DURATION=100 \
+bash eval.sh
+
+4
+0
+
+data/outputs/2026.08.07/15.01.53_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+
+
+#完全使用遥操数据，只是相机使用手机(擦黑板)
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe_tele.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/13.50.19_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.085 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_wipe_tele.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.05/13.25.20_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+#完全使用遥操数据，只是相机使用手机(罐头)
+
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.08 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_can.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.06/11.39.36_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.085 \
+OPEN_GRIPPER_ON_START=True \
+MOVE_TO_START_POSE_PATH=dataset/current_pose_can.json \
+RELATIVE_ACTION=True \
+CAMERA_BACKEND=iphone \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=data/outputs/2026.08.06/11.24.06_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_gello_raw_downsample2 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+data/outputs/2026.08.04/21.59.47_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+python scripts/fuse_gello_into_arpose_zarr.py \
+  --overwrite \
+  --validate
+
+python scripts/fuse_gello_into_arpose_zarr.py \
+  --robot-data-source arpose \
+  --gripper-value-mode raw_ratio \
+  --gello-input dataset/gello_polymetis_command_raw \
+  --arpose-input /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source.zarr \
+  --output /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source_gello_fused.zarr \
+  --overwrite \
+  --validate
+
+python scripts/fuse_gello_into_arpose_zarr.py \
+  --robot-data-source arpose \
+  --gripper-value-mode width_m \
+  --gello-input dataset/gello_polymetis_command_raw_iphone \
+  --arpose-input /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source.zarr \
+  --output /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source_gello_fused_width_m.zarr \
+  --overwrite \
+  --validate
+
+python scripts/compare_iphone_robot_pose.py \
+  --gello-input dataset/gello_polymetis_command_raw \
+  --arpose-input /home/shuwang/CodeFile/umi_data/ARPoseStreamer/uploads/arpose_all_source.zarr \
+  --temporal-downsample 2 \
+  --report-output data/pose_comparison/iphone_robot_pose_error.json \
+  --overwrite
+
+  dataset/gello_polymetis_command_raw_iphone中是不是有一条异常长的记录
+
+insert
+python scripts/overlay_eval_video_with_magnet.py \
+  --trace-csv ../data/eval_outputs/franka_polymetis/policy_recordings/episode_000_20260808_164229_magnet_trace.csv \
+  --video ../data/eval_outputs/franka_polymetis/demos/insert/tactile.mp4 \
+  --output ../data/eval_outputs/franka_polymetis/demos/insert/combined.mp4 \
+    --trim-video-start-sec 0 \
+  --trim-trace-start-sec 0 \
+  --raw-limit 1500 \
+  --crop-video-left-ratio 0.10 \
+--crop-video-right-ratio 0.10 \
+  --frame-output-dir ../data/eval_outputs/franka_polymetis/demos/insert/frames \
+  --frame-save-interval 30 \
+  --magnet-plot-output ../data/eval_outputs/franka_polymetis/demos/insert/magnet_overview.png \
+  --magnet-offset-file ../data/eval_outputs/franka_polymetis/gripper_magnet/gripper_28mm_20260830_163702_magnet_last_normalized.txt \
+  --magnet-y-range -3000 1000 \
+  --magnet-x-range 0 9 \
+
+
+
+wipe
+python scripts/overlay_eval_video_with_magnet.py \
+  --trace-csv ../data/eval_outputs/franka_polymetis/policy_recordings/episode_000_20260812_120526_magnet_trace.csv \
+  --video ../data/eval_outputs/franka_polymetis/demos/wipe/tactile.mp4 \
+  --output ../data/eval_outputs/franka_polymetis/demos/wipe/combined.mp4 \
+  --trim-video-start-sec 0 \
+  --trim-trace-start-sec 2 \
+  --raw-limit 1500 \
+    --crop-video-left-ratio 0.10 \
+--crop-video-right-ratio 0.10 \
+  --frame-output-dir ../data/eval_outputs/franka_polymetis/demos/wipe/frames \
+  --frame-save-interval 30 \
+  --magnet-plot-output ../data/eval_outputs/franka_polymetis/demos/wipe/magnet_overview.png \
+  --magnet-offset-file ../data/eval_outputs/franka_polymetis/gripper_magnet/gripper_44mm_20260830_154439_magnet_last_normalized.txt \
+    --magnet-y-range -2500 600 \
+
+
+chip
+python scripts/overlay_eval_video_with_magnet.py \
+  --trace-csv ../data/eval_outputs/franka_polymetis/policy_recordings/episode_000_20260811_144915_magnet_trace.csv \
+  --video ../data/eval_outputs/franka_polymetis/demos/chip/tactile.mp4 \
+  --output ../data/eval_outputs/franka_polymetis/demos/chip/combined.mp4 \
+  --trim-video-start-sec 6 \
+  --trim-trace-start-sec 0 \
+  --raw-limit 1500 \
+    --crop-video-left-ratio 0.10 \
+--crop-video-right-ratio 0.10 \
+  --frame-output-dir ../data/eval_outputs/franka_polymetis/demos/chip/frames \
+  --frame-save-interval 30 \
+  --magnet-plot-output ../data/eval_outputs/franka_polymetis/demos/chip/magnet_overview.png \
+  --magnet-y-range -500 500 \
+  --magnet-y-tick 200
+
+blind
+python scripts/overlay_eval_video_with_magnet.py \
+  --trace-csv ../data/eval_outputs/franka_polymetis/policy_recordings/episode_000_20260831_150821_magnet_trace.csv \
+  --video ../data/eval_outputs/franka_polymetis/demos/wipe/tactile.mp4 \
+  --output ../data/eval_outputs/franka_polymetis/demos/blind/combined.mp4 \
+  --trim-video-start-sec 6 \
+  --trim-trace-start-sec 0 \
+  --raw-limit 1500 \
+    --crop-video-left-ratio 0.10 \
+--crop-video-right-ratio 0.10 \
+  --frame-output-dir ../data/eval_outputs/franka_polymetis/demos/blind/frames \
+  --frame-save-interval 30 \
+  --magnet-plot-output ../data/eval_outputs/franka_polymetis/demos/blind/magnet_overview.png \
+    --magnet-offset-file ../data/eval_outputs/franka_polymetis/gripper_magnet/gripper_44mm_20260830_154439_magnet_last_normalized.txt \
+  --magnet-y-range -2200 1500 \
+
+
+python scripts/extract_video_frames_without_magnet.py \
+  --video /home/shuwang/CodeFile/rdp/data/eval_outputs/franka_polymetis/policy_recordings/episode_000_20260915_215045_magnet_overlay.mp4 \
+  --frame-interval 20 \
+  --magnet-panel-width 620
+
+
+python scripts/set_robotiq_gripper_width.py 28
+
+python scripts/open_close_robotiq_gripper.py \
+  --port /dev/ttyUSB1 \
+  --open-width-mm 35
+
+python scripts/open_close_robotiq_gripper.py \
+  --port /dev/ttyUSB1 \
+  --open-width-mm 60
+
+  python scripts/open_close_robotiq_gripper.py \
+  --port /dev/ttyUSB1 \
+  --open-width-mm 80
+
+  python scripts/open_close_robotiq_gripper.py \
+  --port /dev/ttyUSB1 \
+  --open-width-mm 45
+
+python scripts/record_franka_polymetis_magnet_only.py \
+  --duration 20 \
+  --output-dir data/eval_outputs/franka_polymetis/magnet_only \
+  --camera-backend iphone \
+  --camera-source auto \
+  --magnet-port /dev/ttyACM1
+
+ENABLE_MAGNET=True \
+MAGNET_PORT=/dev/ttyACM0 \
+MAGNET_REQUIRED=True \
+MAGNET2_PORT=/dev/ttyACM1 \
+MAGNET2_REQUIRED=True \
+MAGNET_SENSOR_ORDER=4,1,2,3 \
+MAGNET2_SENSOR_ORDER=4,1,2,3 \
+CKPT_PATH=../data/outputs/2026.09.22/11.13.16_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_insert \
+MAX_DURATION=10 \
+bash eval_static_10s.sh
+
+
+robot:- + +
++ + -
++ - -
+- - +
+
+umi
+- + +
++ + -
++ - -
+- - +
+
+robot
++ + +
++ - +
++ + +
++ - -
+
+umi
++ + +
++ - +
++ + +
++ - -

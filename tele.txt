@@ -1,0 +1,158 @@
+conda activate polymetis
+
+taskset -c 0-15 launch_robot.py \
+  robot_client=franka_hardware \
+  robot_client.executable_cfg.robot_ip=172.16.0.2 \
+  ip=127.0.0.1 \
+  'robot_client.executable_cfg.limits.cartesian_pos_lower=[0.1,-0.65,-0.05]' \
+  'robot_client.executable_cfg.limits.cartesian_pos_upper=[1.0,0.7,1.0]' \
+  robot_client.executable_cfg.safety_controller.margins.cartesian_pos=0.02 \
+  port=50051
+
+ENABLE_GRIPPER=1 \
+scripts/franka_polymetis_robot_server.sh
+
+ENABLE_GRIPPER=0 \
+DEFAULT_GRIPPER_WIDTH=0.0 \
+POLYMETIS_HOST=10.16.14.58 \
+POLYMETIS_PORT=50051 \
+RDP_ROBOT_SERVER_HOST=127.0.0.1 \
+RDP_ROBOT_SERVER_PORT=8092 \
+scripts/franka_polymetis_robot_server.sh
+
+ros2 launch franka_gripper gripper.launch.py \
+  robot_ip:=172.16.0.2 \
+  robot_type:=fr3 \
+  namespace:=/
+
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --gripper-input-mode open_ratio \
+  --gripper-timeout 3.0 \
+  --gripper-command-interval 0.5
+
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --record-output-dir dataset/gello_polymetis_command_raw \
+  --record-rate 25 \
+  --record-camera-backend realsense \
+  --record-camera-source auto \
+  --record-image-height 224 \
+  --record-image-width 224 \
+  --record-magnet-port /dev/ttyACM0 \
+  --gripper-control-mode press_open
+
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --record-output-dir dataset/gello_polymetis_command_raw \
+  --record-rate 25 \
+  --record-camera-backend realsense \
+  --record-camera-source auto \
+  --record-image-height 224 \
+  --record-image-width 224 \
+  --record-magnet-port /dev/ttyACM0 \
+  --gripper-control-mode direct
+
+#using iphone
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --record-output-dir dataset/gello_polymetis_command_raw \
+  --record-rate 25 \
+  --record-camera-backend iphone \
+  --record-camera-source auto \
+  --record-image-height 224 \
+  --record-image-width 224 \
+  --record-magnet-port /dev/ttyACM0 \
+  --gripper-type robotiq_2f \
+  --gripper-control-mode direct \
+  --gripper-press-active below \
+--gripper-idle-raw 0.5 \
+--gripper-pressed-raw 1.0
+
+//insert 0.3
+//wipe 0.5
+//chip direct
+
+#double_sensor
+
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --record-output-dir dataset/gello_polmetis_command_raw \
+  --record-rate 25 \
+  --record-camera-backend iphone \
+  --record-camera-source auto \
+  --record-image-height 224 \
+  --record-image-width 224 \
+  --record-magnet-port /dev/ttyACM0 /dev/ttyACM1 \
+  --gripper-type robotiq_2f \
+  --gripper-control-mode press_open \
+  --gripper-press-active below \
+  --gripper-idle-raw 0.5 \
+  --gripper-pressed-raw 1.0
+
+/usr/bin/python3 scripts/gello_polymetis_tcp_teleop.py \
+  --gello-topic /gello/joint_states \
+  --gripper-topic /gripper/gripper_client/target_gripper_width_percent \
+  --robot-server http://127.0.0.1:8092 \
+  --alignment absolute \
+  --rate 30 \
+  --target-duration 0.033 \
+  --first-target-duration 4.0 \
+  --record-output-dir dataset/gello_polymetis_command_raw \
+  --record-rate 25 \
+  --record-no-camera \
+  --record-magnet-port /dev/ttyACM0 \
+  --gripper-control-mode direct
+
+python experiment_replay_ui.py \
+  --teleop-recorder-url http://127.0.0.1:8765
+
+python scripts/pack_gello_polymetis_raw_to_zarr.py \
+  --input dataset/gello_polymetis_command_blind_demo \
+  --output dataset/traj_command.zarr.zip \
+  --overwrite \
+  --validate
+
+python scripts/convert_umi_traj_to_rdp_dataset.py \
+  --input dataset/traj_command.zarr.zip \
+  --output dataset/traj_rdp10d_command_downsample2_blind_demo \
+  --preset rdp10d \
+  --temporal-downsample 2 \
+  --image-size 240 320 \
+  --action-source next_obs \
+  --overwrite \
+  --validate
+
+现在把数据采集部分也加上，使用command作为action，采集到的数据要能够完全和现在的训练框架一致（要包含磁传感器信息）
+
+0.6,0.2

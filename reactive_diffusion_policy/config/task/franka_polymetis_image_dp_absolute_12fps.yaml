@@ -1,0 +1,101 @@
+defaults:
+  - real_wipe_image_dp_absolute_12fps
+  - _self_
+
+name: franka_polymetis_image_dp_absolute_12fps
+dataset_path: dataset/traj_rdp10d_downsample2
+
+env_runner:
+  env_class: reactive_diffusion_policy.env.franka_polymetis.franka_polymetis_env.FrankaPolymetisEnv
+  use_ros_executor: False
+  ask_reset_confirmation: False
+  output_dir: data/eval_outputs/franka_polymetis
+  eval_episodes: 1
+  max_duration_time: 20
+  enable_video_recording: False
+  debug_policy_actions: False
+  debug_policy_action_every: 1
+  tcp_action_update_interval: 8
+  gripper_action_update_interval: 8
+  tcp_ensemble_buffer_params:
+    ensemble_mode: 'new'
+    tau: 0.9
+  gripper_ensemble_buffer_params:
+    ensemble_mode: 'new'
+    tau: 0.9
+  control_fps: 12
+  inference_fps: 6
+  latency_step: 2
+  gripper_latency_step: 4
+  obs_temporal_downsample_ratio: 1
+  dataset_obs_temporal_downsample_ratio: 1
+  env_params:
+    robot_server_ip: 127.0.0.1
+    robot_server_port: 8092
+    dataset_path: ${task.dataset_path}
+    image_shape: ${task.image_shape}
+    max_fps: 12
+    camera_source: auto
+    camera_backend: opencv
+    camera_zed_view: left
+    camera_iphone_bind_host: 0.0.0.0
+    camera_iphone_video_port: 5560
+    camera_iphone_combined_port: 5558
+    camera_iphone_phone_ip: ''
+    camera_iphone_registration_port: 5559
+    camera_iphone_startup_timeout: 5.0
+    camera_iphone_read_timeout: 1.0
+    camera_iphone_hello_interval: 2.0
+    camera_flip: False
+    camera_width: 1280
+    camera_height: 720
+    camera_fps: 30.0
+    require_color_camera: True
+    camera_color_threshold: 1.5
+    gripper_stroke: 0.080
+    gripper_raw_min: null
+    gripper_raw_max: null
+    gripper_raw_open_quantile: 0.99
+    gripper_raw_range_mode: calibrated_marker_trajectory
+    gripper_raw_calibration_scale: 0.8413230600966157
+    gripper_raw_calibration_offset: -0.03930162909704434
+    max_gripper_width: null
+    min_gripper_width: null
+    grasp_force: 20.0
+    gripper_velocity: 0.08
+    gripper_control_width_precision: 0.001
+    gripper_width_threshold: null
+    gripper_width_threshold_m: 0.046
+    enable_gripper_width_clipping: False
+    use_force_control_for_gripper: False
+    gripper_action_mode: continuous
+    gripper_binary_threshold: 0.5
+    gripper_binary_hysteresis: 0.0
+    gripper_binary_open_threshold: 0.98
+    gripper_obs_mode: auto
+    move_to_start_on_reset: True
+    move_to_start_pose_path: ''
+    reset_episode: 0
+    move_to_start_duration: 5.0
+    move_to_start_frequency: 30.0
+    move_to_start_settle: True
+    move_to_start_settle_timeout: 3.0
+    move_to_start_settle_frequency: 20.0
+    move_to_start_pos_tolerance: 0.002
+    move_to_start_rot_tolerance_deg: 3.0
+    move_to_start_strict: True
+    save_processed_image: True
+    processed_image_output_dir: data/eval_outputs/franka_polymetis/debug_images
+    enable_policy_recording: True
+    policy_recording_output_dir: data/eval_outputs/franka_polymetis/policy_recordings
+    policy_recording_fps: 12
+    policy_recording_image_width: null
+    policy_recording_image_height: null
+    policy_recording_plot_width: 360
+    policy_recording_plot_window_sec: 10.0
+    tcp_target_duration: ${eval:'1.0/${task.env_runner.control_fps}'}
+    #tcp_target_duration: 0.01667
+    tcp_move_timeout: 0.05
+    http_timeout: 1.0
+    gripper_http_timeout: 5.0
+    magnet_normalize_to_first_frame: False

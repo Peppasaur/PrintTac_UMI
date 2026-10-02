@@ -1,0 +1,12 @@
+defaults:
+  - real_wipe_image_gelsight_emb_at_24fps
+  - _self_
+
+name: real_wipe_image_gelsight_emb_at_absolute_12fps
+dataset_path: data/wipe_v1_zarr
+
+dataset:
+  relative_action: True
+  obs_temporal_downsample_ratio: ${dataset_obs_temporal_downsample_ratio}
+  gaussian_normalizer_keys:
+    - left_gripper1_marker_offset_emb

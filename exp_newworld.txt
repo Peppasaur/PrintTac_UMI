@@ -1,0 +1,115 @@
+        START_GRIPPER_WIDTH_MM=44 \
+
+  
+  CAMERA_COLOR_MATCH_DATASET_START=False \
+  GRIPPER_STROKE=0.08 \
+  GRIPPER_COMMAND_WIDTH_OFFSET=0.00 \
+  CAMERA_SQUARE_CROP_BOTTOM_ROWS=0 \
+  GRIPPER_SIGNAL_SOURCE=teleop_raw \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+  CKPT_PATH=data/outputs/2026.08.20/17.10.43_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample2_wipe \
+  RESET_EPISODE=5 \
+  MAX_DURATION=100 \
+  bash eval_test.sh
+
+  data/outputs/2026.08.20/16.11.14_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+
+  CAMERA_COLOR_MATCH_DATASET_START=False \
+  GRIPPER_COMMAND_WIDTH_OFFSET=0.00 \
+  CAMERA_SQUARE_CROP_BOTTOM_ROWS=0 \
+  GRIPPER_SIGNAL_SOURCE=teleop_raw \
+  CAMERA_PREPROCESS_MODE=square_crop \
+  OPEN_GRIPPER_ON_START=True \
+  RELATIVE_ACTION=True \
+  CAMERA_BACKEND=iphone \
+  CAMERA_SOURCE=auto \
+  MOVE_TO_START_DURATION=5.0 \
+  MOVE_TO_START_FREQUENCY=20.0 \
+  TASK=franka_polymetis_image_dp_absolute_12fps \
+  CKPT_PATH=data/outputs/2026.08.20/15.49.30_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+  DATASET_PATH=dataset/traj_rdp10d_command_downsample2_wipe \
+  RESET_EPISODE=5 \
+  MAX_DURATION=100 \
+  bash eval_test.sh
+
+data/outputs/2026.08.19/15.32.01_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+  data/outputs/2026.08.19/18.25.49_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+  data/outputs/2026.08.19/21.01.39_train_diffusion_unet_image_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+
+data/outputs/2026.08.20/15.26.07_train_diffusion_unet_image_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+
+EXCLUDE_TCP_OBS=False \
+CONFIG_NAME=train_diffusion_unet_first_frame_workspace \
+TASK=franka_polymetis_image_gelsight_emb_dp_absolute_12fps \
+CKPT_PATH=../data/outputs/2026.08.29/00.45.11_train_diffusion_unet_first_frame_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_wipe_no_vis \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+CAMERA_PREPROCESS_MODE=square_crop \
+ENABLE_MAGNET=True \
+MAGNET_PORT=/dev/ttyACM0 \
+MAGNET_READER_SUBTRACT_BASELINE=True \
+MAGNET_NORMALIZE_TO_FIRST_FRAME=False \
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.085 \
+START_GRIPPER_WIDTH_MM=42.5 \
+RELATIVE_ACTION=True \
+RESET_EPISODE=0 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+#dual magnet
+CONFIG_NAME=train_diffusion_unet_first_frame_workspace \
+TASK=franka_polymetis_image_dual_magnet_emb_dp_absolute_12fps \
+CKPT_PATH=../data/outputs/2026.09.11/23.41.52_train_diffusion_unet_first_frame_real_wipe_image_dual_magnet_emb_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_wipe_no_vis_double \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+CAMERA_PREPROCESS_MODE=square_crop \
+ENABLE_MAGNET=True \
+MAGNET_PORT=/dev/ttyACM0 \
+MAGNET2_PORT=/dev/ttyACM1 \
+MAGNET_REQUIRED=True \
+MAGNET2_REQUIRED=True \
+MAGNET_SENSOR_ORDER=1,2,3,4 \
+MAGNET2_SENSOR_ORDER=1,2,3,4 \
+MAGNET_READER_SUBTRACT_BASELINE=True \
+MAGNET_NORMALIZE_TO_FIRST_FRAME=False \
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.085 \
+START_GRIPPER_WIDTH_MM=42.5 \
+RELATIVE_ACTION=True \
+RESET_EPISODE=0 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+../data/outputs/2026.08.28/11.24.06_train_diffusion_unet_first_frame_real_wipe_image_gelsight_emb_dp_absolute_12fps/checkpoints/latest.ckpt
+
+EXCLUDE_TCP_OBS=False \
+CONFIG_NAME=train_diffusion_unet_first_frame_workspace \
+TASK=franka_polymetis_image_dp_absolute_12fps \
+CKPT_PATH=../data/outputs/2026.08.29/00.58.38_train_diffusion_unet_first_frame_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt \
+DATASET_PATH=dataset/traj_rdp10d_command_downsample2_wipe_no_vis \
+CAMERA_BACKEND=iphone \
+CAMERA_SOURCE=auto \
+CAMERA_PREPROCESS_MODE=square_crop \
+GRIPPER_SIGNAL_SOURCE=teleop_raw \
+GRIPPER_STROKE=0.085 \
+START_GRIPPER_WIDTH_MM=42.5 \
+RELATIVE_ACTION=True \
+RESET_EPISODE=0 \
+MAX_DURATION=100 \
+bash eval_test.sh
+
+../data/outputs/2026.08.28/12.09.24_train_diffusion_unet_first_frame_real_wipe_image_dp_absolute_12fps/checkpoints/latest.ckpt
+/home/shuwang/CodeFile/rdp/data/outputs/2026.08.28/10.58.03_train_diffusion_unet_first_frame_real_wipe_image_gelsight_emb_dp_absolute_12fps_no_tcp_obs

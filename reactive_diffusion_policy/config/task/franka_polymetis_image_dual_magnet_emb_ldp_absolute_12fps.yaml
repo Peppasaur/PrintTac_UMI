@@ -1,0 +1,32 @@
+defaults:
+  - real_wipe_image_dual_magnet_emb_ldp_absolute_12fps
+  - franka_polymetis_image_gelsight_emb_ldp_absolute_12fps
+  - _self_
+
+name: franka_polymetis_image_dual_magnet_emb_ldp_absolute_12fps
+
+shape_meta:
+  obs:
+    left_gripper2_marker_offset_emb:
+      shape: [15]
+      type: low_dim
+  extended_obs:
+    left_gripper2_marker_offset_emb:
+      shape: [15]
+      type: low_dim
+
+env_runner:
+  shape_meta: ${task.shape_meta}
+  env_params:
+    magnet2_port: /dev/ttyACM1
+    magnet2_required: True
+    magnet2_tactile_key: left_gripper2_marker_offset_emb
+    magnet2_tactile_dim: 15
+    magnet2_sensor_order: null
+    magnet2_zero_channels: null
+
+dataset:
+  shape_meta: ${task.shape_meta}
+  gaussian_normalizer_keys:
+    - left_gripper1_marker_offset_emb
+    - left_gripper2_marker_offset_emb

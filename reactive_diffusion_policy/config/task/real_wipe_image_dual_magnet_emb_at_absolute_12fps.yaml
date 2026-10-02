@@ -1,0 +1,21 @@
+defaults:
+  - real_wipe_image_gelsight_emb_at_absolute_12fps
+  - _self_
+
+name: real_wipe_image_dual_magnet_emb_at_absolute_12fps
+
+shape_meta:
+  obs:
+    left_gripper2_marker_offset_emb:
+      shape: [15]
+      type: low_dim
+  extended_obs:
+    left_gripper2_marker_offset_emb:
+      shape: [15]
+      type: low_dim
+
+dataset:
+  shape_meta: ${task.shape_meta}
+  gaussian_normalizer_keys:
+    - left_gripper1_marker_offset_emb
+    - left_gripper2_marker_offset_emb

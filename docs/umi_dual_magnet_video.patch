@@ -1,0 +1,72 @@
+*** Begin Patch
+*** Update File: /home/shuwang/CodeFile/umi_data/ARPoseStreamer/export_capture_to_zarr.py
+@@
+-    # Captures may contain two board slots while only one board is connected.
+-    # Select the board with the most nonzero finite readings and plot its time history.
++    # Captures may contain one or two board slots. Keep every board that has
++    # signal so dual-sensor captures are visible in the exported video.
+     finite_nonzero = np.isfinite(magnet_xyz) & (np.abs(magnet_xyz) > 1e-8)
+     board_scores = np.count_nonzero(finite_nonzero, axis=(0, 2, 3))
+-    board_index = int(np.argmax(board_scores))
+-    board_label = "right" if board_index == 0 else "left"
+-    selected_magnet = magnet_xyz[:, board_index, :, :]
+-    baseline = get_magnet_baseline(selected_magnet)
+-    relative_magnet = selected_magnet - baseline[None, :, :]
+-    magnet_plot_limit = get_magnet_plot_limit(relative_magnet)
++    active_board_indices = [
++        int(index) for index, score in enumerate(board_scores) if int(score) > 0
++    ]
++    if not active_board_indices:
++        active_board_indices = [int(np.argmax(board_scores))]
++    board_labels = {0: "right", 1: "left"}
++    relative_magnets = {}
++    magnet_plot_limits = {}
++    for board_index in active_board_indices:
++        selected_magnet = magnet_xyz[:, board_index, :, :]
++        baseline = get_magnet_baseline(selected_magnet)
++        relative_magnet = selected_magnet - baseline[None, :, :]
++        relative_magnets[board_index] = relative_magnet
++        magnet_plot_limits[board_index] = get_magnet_plot_limit(relative_magnet)
+@@
+-        (width + panel_width, height),
++        (width + panel_width * len(active_board_indices), height),
+@@
+-            magnet_panel = draw_magnet_panel(
+-                magnet_frame=relative_magnet[: frame_idx + 1],
+-                panel_height=height,
+-                panel_width=panel_width,
+-                value_limit=magnet_plot_limit,
+-                board_label=board_label,
+-            )
+-            cv2.putText(
+-                magnet_panel,
+-                f"frame={frame_idx}  t={float(timestamps[frame_idx]) - t0:.3f}s",
+-                (10, height - 10),
+-                cv2.FONT_HERSHEY_SIMPLEX,
+-                0.42,
+-                (30, 30, 30),
+-                1,
+-                cv2.LINE_AA,
+-            )
+-            output_rgb = np.concatenate([rgb[:height, :width], magnet_panel], axis=1)
++            magnet_panels = []
++            for board_index in active_board_indices:
++                magnet_panel = draw_magnet_panel(
++                    magnet_frame=relative_magnets[board_index][: frame_idx + 1],
++                    panel_height=height,
++                    panel_width=panel_width,
++                    value_limit=magnet_plot_limits[board_index],
++                    board_label=board_labels.get(board_index, f"board {board_index + 1}"),
++                )
++                cv2.putText(
++                    magnet_panel,
++                    f"frame={frame_idx}  t={float(timestamps[frame_idx]) - t0:.3f}s",
++                    (10, height - 10),
++                    cv2.FONT_HERSHEY_SIMPLEX,
++                    0.42,
++                    (30, 30, 30),
++                    1,
++                    cv2.LINE_AA,
++                )
++                magnet_panels.append(magnet_panel)
++            output_rgb = np.concatenate([rgb[:height, :width], *magnet_panels], axis=1)

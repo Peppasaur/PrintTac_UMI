@@ -1,0 +1,35 @@
+defaults:
+  - train_diffusion_unet_real_image_workspace
+  - _self_
+
+name: train_diffusion_unet_first_frame
+
+# The absolute first RGB frame of each episode supplies scene context. The
+# sequence-aware encoder emits zero visual features for later steps while
+# retaining tactile features at every step.
+policy:
+  obs_encoder:
+    _target_: reactive_diffusion_policy.model.vision.first_frame_obs_encoder.FirstFrameObsEncoder
+    shape_meta: ${shape_meta}
+    rgb_model:
+      _target_: reactive_diffusion_policy.model.vision.model_getter.get_resnet
+      name: resnet18
+      weights: null
+    resize_shape: [240, 320]
+    random_transforms:
+      - type: RandomCrop
+        ratio: 0.90
+    use_group_norm: True
+    share_rgb_model: False
+    imagenet_norm: True
+    first_frame_rgb_keys: &episode_first_frame_rgb_keys
+      - left_wrist_img
+    # Keep tactile/force observations at every step. TCP and gripper state are
+    # context for the first step only, so later inference is tactile-only.
+    temporal_low_dim_keys: tactile
+
+task:
+  dataset:
+    # Every sliding training window receives the absolute episode-start image
+    # at visual t=0; all later wrist-image slots are zero.
+    episode_first_frame_rgb_keys: *episode_first_frame_rgb_keys
