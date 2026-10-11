@@ -37,9 +37,6 @@ Convert UMI recordings into training-ready datasets, train diffusion policies, a
 flowchart LR
     A[UMI recording] --> B[traj_command.zarr.zip]
     B --> C[convert_umi_traj_to_rdp_dataset.py]
-│   ├── overlay_eval_video_with_magnet.py
-│   ├── render_magnet_vector_video.py
-│   └── extract_video_frames_without_magnet.py
     C --> D[replay_buffer.zarr]
     D --> E[bin/train/train_dp.sh]
     D --> F[bin/train/train_dp_first_frame.sh]
@@ -106,9 +103,6 @@ The converter accepts a UMI/Franka Zarr directory or <code>.zarr.zip</code> arch
 DATA_ROOT=../data
 
 python scripts/convert_umi_traj_to_rdp_dataset.py \
-│   ├── overlay_eval_video_with_magnet.py
-│   ├── render_magnet_vector_video.py
-│   └── extract_video_frames_without_magnet.py
   --input $DATA_ROOT/dataset/traj_command.zarr.zip \
   --output $DATA_ROOT/dataset/traj_rdp10d_command_downsample2 \
   --preset rdp10d \
@@ -176,9 +170,6 @@ Use <code>auto</code> only when the input schema is understood and automatic <co
 
 ~~~bash
 python scripts/convert_umi_traj_to_rdp_dataset.py --help
-│   ├── overlay_eval_video_with_magnet.py
-│   ├── render_magnet_vector_video.py
-│   └── extract_video_frames_without_magnet.py
 ~~~
 
 ## 2. Train the Policy
