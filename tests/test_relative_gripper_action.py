@@ -9,7 +9,7 @@ from reactive_diffusion_policy.common.action_utils import (
 )
 from reactive_diffusion_policy.dataset.real_image_tactile_dataset import RealImageTactileDataset
 from reactive_diffusion_policy.env_runner.real_runner import RealRunner
-from eval_real_robot_flexiv import _sync_relative_gripper_action_from_checkpoint
+from scripts.eval.eval_real_robot_flexiv import _sync_relative_gripper_action_from_checkpoint
 
 
 class RelativeGripperActionUtilsTest(unittest.TestCase):

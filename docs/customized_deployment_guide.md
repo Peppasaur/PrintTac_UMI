@@ -15,9 +15,9 @@ modify [reactive_diffusion_policy/real_world/teleoperation/teleop_server.py](../
 Policy-related configs define the observation shape, action shape, environment runner parameters, and dataset parameters.
 
 Note that the `mode` in `data_processing_params` represents the `SENSOR_MODE`, which defines how much cameras or tactile sensors are used for observation.
-Make sure the `mode` in the task config matches the `SENSOR_MODE` in [post_process_data.py](post_process_data.py).
+Make sure the `mode` in the task config matches the `SENSOR_MODE` in [post_process_data.py](../scripts/data/post_process_data.py).
 You can add a new sensor mode in [reactive_diffusion_policy/common/data_models.py](../reactive_diffusion_policy/common/data_models.py) and
-modify [post_process_data.py](post_process_data.py) and [reactive_diffusion_policy/real_world/post_process_utils.py](../reactive_diffusion_policy/real_world/post_process_utils.py) accordingly.
+modify [post_process_data.py](../scripts/data/post_process_data.py) and [reactive_diffusion_policy/real_world/post_process_utils.py](../reactive_diffusion_policy/real_world/post_process_utils.py) accordingly.
 
 ### Add Customized Tactile / Force Sensors
 1. **Implement the Sensor Publisher.**

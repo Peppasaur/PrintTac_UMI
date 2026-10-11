@@ -33,7 +33,7 @@ def _eval_overrides(tmp_path, source=None, extra_env=None):
         env["GRIPPER_SIGNAL_SOURCE"] = source
     env.update(extra_env or {})
     result = subprocess.run(
-        ["bash", "eval.sh"],
+        ["bash", "scripts/eval/eval.sh"],
         cwd=REPO_ROOT,
         env=env,
         text=True,

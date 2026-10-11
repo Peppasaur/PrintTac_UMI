@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}/.."
+
 FR3_ROBOT_IP="${FR3_ROBOT_IP:-172.16.0.2}"
 POLYMETIS_GRIPPER_HOST="${POLYMETIS_GRIPPER_HOST:-127.0.0.1}"
 POLYMETIS_GRIPPER_PORT="${POLYMETIS_GRIPPER_PORT:-50052}"
@@ -29,7 +32,7 @@ if [[ "${GRIPPER_TYPE}" == "robotiq_2f" ]]; then
   if [[ "${ROBOTIQ_RESET_BEFORE_ACTIVATE}" == "1" || "${ROBOTIQ_RESET_BEFORE_ACTIVATE}" == "true" ]]; then
     ROBOTIQ_ARGS+=(--reset-before-activate)
   fi
-  exec conda run --no-capture-output -n polymetis python -u robotiq_polymetis_gripper_server.py \
+  exec conda run --no-capture-output -n polymetis python -u scripts/teleop/robotiq_polymetis_gripper_server.py \
     --host "${POLYMETIS_GRIPPER_HOST}" \
     --port "${POLYMETIS_GRIPPER_PORT}" \
     --comport "${ROBOTIQ_PORT}" \

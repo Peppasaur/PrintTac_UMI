@@ -13,4 +13,4 @@ You can use [scripts/extract_gelsight_marker_motion.py](../reactive_diffusion_po
 
 ### 4. Generate Tactile Embedding
 You can use the [scripts/generate_pca_embedding.py](../reactive_diffusion_policy/scripts/generate_pca_embedding.py) to generate the PCA tactile embedding (.npy format) from the marker motion dataset (zarr format).
-You can find the pre-calculated PCA transformation matrix for our experiments in [data/PCA_Transform_GelSight](../data/PCA_Transform_GelSight).
+Place the PCA transformation matrix and mean for your experiments in `data/PCA_Transform_GelSight`. This local data directory is excluded from Git.

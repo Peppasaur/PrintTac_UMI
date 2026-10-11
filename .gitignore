@@ -146,7 +146,7 @@ rdp_venv/
 .idea/
 
 # Large local datasets / training artifacts
-dataset/
+/dataset/
 data/outputs/
 *.zarr.zip
 *.zarr/
@@ -162,3 +162,13 @@ data/outputs/
 *.h5
 core
 core.*
+
+# Local ROS/colcon products and experiment scratch files
+/install/
+/log/
+/local/
+/exp*.txt
+/tele.txt
+/episode_*_first_frame.png
+/magnet_overview.png
+*.blend1

@@ -15,7 +15,7 @@ from reactive_diffusion_policy.env.franka_polymetis.franka_polymetis_env import 
 
 class StaticEvalTest(unittest.TestCase):
     def test_generic_static_policy_eval_disables_every_motion_source(self):
-        script = (Path(__file__).parents[1] / "eval_static_policy.sh").read_text()
+        script = (Path(__file__).parents[1] / "scripts/eval/eval_static_policy.sh").read_text()
 
         self.assertIn("export OPEN_GRIPPER_ON_START=False", script)
         self.assertIn('export START_GRIPPER_WIDTH_MM=""', script)
@@ -27,7 +27,7 @@ class StaticEvalTest(unittest.TestCase):
         self.assertIn('exec bash "${SCRIPT_DIR}/eval.sh"', script)
 
     def test_static_eval_script_disables_all_robot_motion(self):
-        script = (Path(__file__).parents[1] / "eval_static_10s.sh").read_text()
+        script = (Path(__file__).parents[1] / "scripts/eval/eval_static_10s.sh").read_text()
 
         self.assertIn("export OPEN_GRIPPER_ON_START=False", script)
         self.assertIn("export MOVE_TO_START=False", script)

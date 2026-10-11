@@ -13,5 +13,5 @@ Therefore, if you are using GelSight Mini, we recommend executing the following 
  2. Edit `/etc/default/grub` and add `isolcpus=xxx` to the `GRUB_CMDLINE_LINUX_DEFAULT` line
  for isolating certain CPU cores.
  3. Modify the task configuration file and 
- the beginning several lines of all entry-point Python files (e.g. teleop.py) 
+ the beginning several lines of all entry-point Python files (e.g. `scripts/teleop/teleop.py`)
  to adjust the corresponding core binding.

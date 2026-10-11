@@ -1333,7 +1333,7 @@ class _ZEDSDKCamera:
                 raise RuntimeError(
                     "CAMERA_BACKEND=zed now uses the ZED SDK, but the current Python "
                     "environment does not have the ZED Python API package 'pyzed'. "
-                    "Install pyzed into the same environment used by eval.sh "
+                    "Install pyzed into the same environment used by scripts/eval/eval.sh "
                     "(usually conda env 'umi'), for example: "
                     "conda run -n umi python /usr/local/zed/get_python_api.py"
                 ) from exc

@@ -71,7 +71,7 @@ class DualMagnetConfigTest(unittest.TestCase):
                 )
 
     def test_eval_script_exposes_second_magnetometer_overrides(self):
-        script = (Path(__file__).parents[1] / "eval.sh").read_text()
+        script = (Path(__file__).parents[1] / "scripts/eval/eval.sh").read_text()
 
         self.assertIn('MAGNET2_PORT="${MAGNET2_PORT:-}"', script)
         self.assertIn('MAGNET2_REQUIRED="${MAGNET2_REQUIRED:-}"', script)

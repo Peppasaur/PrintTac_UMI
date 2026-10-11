@@ -4,7 +4,7 @@ Evaluate an RDP/DP image policy on a Franka through the local Polymetis HTTP
 server used by scripts/replay_franka_polymetis_dataset.py.
 
 This script is intentionally narrow: it supports the single-arm 10D Franka DP
-checkpoint produced by train_dp.sh:
+checkpoint produced by scripts/train/train_dp.sh:
 
     left_wrist_img + left_robot_tcp_pose + left_robot_gripper_width -> action
 

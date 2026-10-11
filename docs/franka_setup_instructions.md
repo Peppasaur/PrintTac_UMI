@@ -85,7 +85,7 @@ Edit [reactive_diffusion_policy/config/task/real_world_env.yaml](../reactive_dif
    
 ```bash
 # start teleoperation server
-python teleop.py task=[task_config_file_name]
+python scripts/teleop/teleop.py task=[task_config_file_name]
 ```
 
 ### Meta Quest 3
@@ -95,7 +95,7 @@ Follow the [user guide in our Unity Repo](https://github.com/xiaoxiaoxh/TactAR_A
 ## Additional Notes
 
 - We use the Franka Research 3 with the FrankaHand gripper. Other hardwares should also work in principle. 
-- Theoretically, the closer the control signal frequency sent by the FrankaServer is to 1000Hz, the more controllable the policy will be. If your hardware allows, you may increase the "frequency" parameter in [franka_server.py](rreactive_diffusion_policy/real_world/robot/franka_server.py).
+- Theoretically, the closer the control signal frequency sent by the FrankaServer is to 1000Hz, the more controllable the policy will be. If your hardware allows, you may increase the "frequency" parameter in [franka_server.py](../reactive_diffusion_policy/real_world/robot/franka_server.py).
   
 
 For troubleshooting and advanced usage, please refer to the full documentation or contact the maintainers.

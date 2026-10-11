@@ -34,6 +34,6 @@ def test_square_crop_can_remove_bottom_rows_before_resizing():
 def test_eval_scripts_forward_square_crop_bottom_rows():
     repo = Path(__file__).parents[1]
     for script_name in ("eval.sh", "eval_test.sh"):
-        script = (repo / script_name).read_text()
+        script = (repo / "scripts/eval" / script_name).read_text()
         assert 'CAMERA_SQUARE_CROP_BOTTOM_ROWS="${CAMERA_SQUARE_CROP_BOTTOM_ROWS:-0}"' in script
         assert "camera_square_crop_bottom_rows=${CAMERA_SQUARE_CROP_BOTTOM_ROWS}" in script

@@ -1,5 +1,5 @@
 <h3 align="center">
-    Reactive Diffuison Policy:
+    Reactive Diffusion Policy:
 </h3>
 <h4 align="center">
     Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation
@@ -46,11 +46,26 @@
 <img src="assets/teaser.png" alt="teaser" style="width:90%;" />
 </p>
 
+## Overview
+
+Reactive Diffusion Policy (RDP) is a visual-tactile policy for contact-rich robot manipulation. This repository contains the code for collecting and processing demonstrations, training Diffusion Policy (DP) and RDP (Asymmetric Tokenizer + Latent Diffusion Policy), and evaluating trained policies on robots. It includes the Flexiv setup used in the project and scripts for Franka and single-arm workflows.
+
+The detailed instructions below assume you run commands from the repository root. Robot operation and data collection require the corresponding hardware and ROS 2 setup. For training, start with the [example dataset](https://huggingface.co/datasets/WendiChen/reactive_diffusion_policy_dataset) or process demonstrations into the Zarr format described below.
+
+### Where to start
+
+| Goal | Starting point |
+| --- | --- |
+| Set up a workstation or adapt a robot/task | [Environment Setup](#environment-setup) and the [customization guide](docs/customized_deployment_guide.md) |
+| Collect and process demonstrations | [Data Collection](#data-collection), [record_data.py](scripts/data/record_data.py), and [post_process_data.py](scripts/data/post_process_data.py) |
+| Train DP or RDP | [Training](#training) and the presets in [`scripts/train/`](scripts/train/) |
+| Evaluate a checkpoint on a robot | [Inference](#inference) and [`scripts/eval/eval.sh`](scripts/eval/eval.sh) |
+
 ## News
 - The [code](https://github.com/Chen-Wendi/ImplicitRDP) of [ImplicitRDP](https://implicit-rdp.github.io) has been open-sourced, feel free to [explore it and give it a try](https://github.com/Chen-Wendi/ImplicitRDP)! 🚀
 - We propose [ImplicitRDP](https://implicit-rdp.github.io), an end-to-end version of RDP with a streamlined and simplified training pipeline — go [check it out](https://implicit-rdp.github.io)! 🚀
 
-## TODO
+## Release status
 - [x] Release the code of TactAR and [Quest3 APP](https://github.com/xiaoxiaoxh/TactAR_APP).
 - [x] Release the code of RDP.
 - [x] Release the [data](https://huggingface.co/datasets/WendiChen/reactive_diffusion_policy_dataset).
@@ -59,7 +74,22 @@
 - [x] Add [guide for creating the tactile dataset and the tactile embedding](docs/tactile_embedding_guide.md).
 - [x] Support more robots (e.g. Franka) and single-arm teleoperation.
 
-## ⚙️ Environment Setup
+## Repository layout
+
+| Path | Purpose |
+| --- | --- |
+| `reactive_diffusion_policy/` | Importable policy, dataset, environment, and training code, with Hydra configurations under `config/`. |
+| `scripts/train/` | Training entry point and training presets. |
+| `scripts/eval/` | Policy evaluation entry point and rollout presets. |
+| `scripts/teleop/`, `scripts/camera/`, `scripts/data/` | Robot, teleoperation, camera, and data collection entry points. |
+| Other files under `scripts/` | Hardware launchers, dataset conversion, analysis, and visualization tools. |
+| `tests/` | Automated checks. |
+| `docs/` and `assets/` | Guides, diagrams, and example assets. |
+| `third_party/` | SDK code and libraries used by optional hardware integrations. |
+
+Generated datasets, checkpoints, ROS build products, and run logs are excluded from version control. Personal experiment notes and debug captures can be kept under `local/`. The dataset loader source under `reactive_diffusion_policy/dataset/` is part of the codebase.
+
+## Environment Setup
 ### 📝 Use Customized Tactile / Force Sensors, Robots and Customized Tasks
 Please refer to [docs/customized_deployment_guide.md](docs/customized_deployment_guide.md).
 
@@ -105,14 +135,14 @@ to install ROS2 Humble.
    to install MindVision SDK. This package is needed only if you want to
    record experiment videos with MindVision cameras.
 
-## 📦 Data Collection
+## Data Collection
 ### TactAR Setup
 1. For the workstation,
 the environment and the task have to be configured first and
 then start several services for teleoperating robots, publishing sensor data and record the data.
     1. Environment and Task Configuration.
         - **Calibration.**
-          Example calibration files are proviced in [data/calibration](data/calibration).
+          Put calibration files in `data/calibration` and set `calibration_path` in the environment config. This local data directory is excluded from Git.
           Each `A_to_B_transform.json` contains the transformation from coordinate system A to coordinate system B. 
             > We use calibration files only for bimanual manipulation.
         - **Environment Configuration.**
@@ -127,11 +157,11 @@ then start several services for teleoperating robots, publishing sensor data and
       You can use tmux to split the terminal.
       ```bash
       # start teleoperation server
-      python teleop.py task=[task_config_file_name]
+      python scripts/teleop/teleop.py task=[task_config_file_name]
       # start camera node launcher
-      python camera_node_launcher.py task=[task_config_file_name]
+      python scripts/camera/camera_node_launcher.py task=[task_config_file_name]
       # start data recorder
-      python record_data.py --save_to_disk --save_file_dir [task_data_dir] --save_file_name [record_seq_file_name]
+      python scripts/data/record_data.py --save_to_disk --save_file_dir [task_data_dir] --save_file_name [record_seq_file_name]
       ```
 2. For Quest 3,
 follow the [user guide in our Unity Repo](https://github.com/xiaoxiaoxh/TactAR_APP/blob/master/Docs/User_Guide.md)
@@ -144,14 +174,14 @@ Please refer to [docs/data_collection_tips.md](docs/data_collection_tips.md).
 We provide the data we collected on [![data](https://img.shields.io/badge/data-FFD21E?logo=huggingface&logoColor=000)](https://huggingface.co/datasets/WendiChen/reactive_diffusion_policy_dataset).
 
 ### Generate your own tactile embedding
-Please refer to the [tactile embedding guide](docs/tactile_embedding_guide.md) for collecting your own tactile dataset and generate tactile embedding based on this dataset. You can also directly use our pre-calculated PCA transformation matrix for tactile embedding in [data/PCA_Transform_GelSight](data/PCA_Transform_GelSight).
+Please refer to the [tactile embedding guide](docs/tactile_embedding_guide.md) for collecting your own tactile dataset and generate tactile embedding based on this dataset. Place PCA transformation matrices in `data/PCA_Transform_GelSight` before using them; local data files are excluded from Git.
 
 ### Data Postprocessing
-Change the config in [post_process_data.py](post_process_data.py)
+Change the config in [post_process_data.py](scripts/data/post_process_data.py)
 (including `TAG`, `ACTION_DIM`, `TEMPORAL_DOWNSAMPLE_RATIO` and `SENSOR_MODE`)
 and execute the command
 ```bash
-python post_process_data.py
+python scripts/data/post_process_data.py
 ```
 We use [Zarr](https://zarr.dev/) to store the data.
 After postprocessing, you may see the following structure:
@@ -182,7 +212,7 @@ After postprocessing, you may see the following structure:
 ```
 You can also use your own data collection system to collect data and convert it to the same `zarr` format as ours.
 
-## 📚 Training
+## Training
 1. **Task Configuration.**
    In addition to the task config file used in [data collection](#data-collection),
    another file is needed to configure dataset, runner, and model-related parameters such as `obs` and `action`.
@@ -193,7 +223,7 @@ You can also use your own data collection system to collect data and convert it 
    The `fps` at the end of config file name indicates the control frequency.
    Make sure the `control_fps` in the task config file is consistent with dataset.
    For instance, we record 24fps data and want to train a model with 12fps control frequency,
-   then we have to modify the `TEMPORAL_DOWNSAMPLE_RATIO` in [post_process_data.py](post_process_data.py)
+   then we have to modify the `TEMPORAL_DOWNSAMPLE_RATIO` in [post_process_data.py](scripts/data/post_process_data.py)
    to 2 to generate the correct dataset.
    > We record 24fps data for experiments. 
      We train DP with 12fps control frequency and RDP (AT + LDP) with 24fps control frequency.
@@ -204,28 +234,28 @@ You can also use your own data collection system to collect data and convert it 
    # config multi-gpu training
    accelerate config
    # Diffusion Policy
-   ./train_dp.sh
+   ./scripts/train/train_dp.sh
    # Episode-first visual context, then tactile-only temporal conditioning
-   ./train_dp_first_frame.sh
+   ./scripts/train/train_dp_first_frame.sh
    # Reactive Diffusion Policy
-   ./train_rdp.sh
+   ./scripts/train/train_rdp.sh
    ```
 
-## 🚀 Inference
+## Inference
 1. (Optional) Refer to `vcamera_server_ip` and `vcamera_server_port` in the task config file and start the corresponding vcamera server
    ```bash
    # run vcamera server
-   python vcamera_server.py --host_ip [host_ip] --port [port] --camera_id [camera_id]
+   python scripts/camera/vcamera_server.py --host_ip [host_ip] --port [port] --camera_id [camera_id]
    ```
-2. Modify [eval.sh](eval.sh) to set the task and model you want to evaluate
+2. Modify [eval.sh](scripts/eval/eval.sh) to set the task and model you want to evaluate
    and run the command in separate terminals.
    ```bash
    # start teleoperation server
-   python teleop.py task=[task_config_file_name]
+   python scripts/teleop/teleop.py task=[task_config_file_name]
    # start camera node launcher
-   python camera_node_launcher.py task=[task_config_file_name]
+   python scripts/camera/camera_node_launcher.py task=[task_config_file_name]
    # start inference
-   ./eval.sh
+   ./scripts/eval/eval.sh
    ```
 
 ### Checkpoints
