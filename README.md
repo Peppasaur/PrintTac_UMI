@@ -127,25 +127,6 @@ The output directory contains:
 | <code>--magnet-mode tactile</code> | Writes the 15D magnetic tactile key required by the example task. |
 | <code>--validate</code> | Checks the converted dataset after writing. |
 
-### Magnetic tactile requirement
-
-The example task requires <code>left_gripper1_marker_offset_emb</code> with shape <code>[T, 15]</code>. If the source array is not named <code>magnet_xyz</code>, pass the correct name with <code>--magnet-key</code>. The converter can otherwise skip unavailable magnetic input, while the training task still expects the tactile key.
-
-After conversion, verify the generated array explicitly:
-
-~~~bash
-python - <<'PY'
-import zarr
-
-root = zarr.open(
-    '../data/dataset/traj_rdp10d_command_downsample2/replay_buffer.zarr',
-    mode='r',
-)
-key = 'data/left_gripper1_marker_offset_emb'
-print(key, root[key].shape, root[key].dtype)
-assert root[key].ndim == 2 and root[key].shape[1] == 15
-PY
-~~~
 
 ### Choosing the action source
 
