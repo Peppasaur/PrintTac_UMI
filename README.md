@@ -15,7 +15,7 @@ Convert UMI recordings into training-ready datasets, train diffusion policies, a
 </div>
 
 <p align="center">
-  <img src="docs/diffusion_policy_network_overview.png" alt="PrintTac UMI policy overview" width="92%">
+  <img src="docs/teaser.jpg" alt="PrintTac UMI policy overview" width="92%">
 </p>
 
 > **Repository scope.** This repository contains the UMI data conversion, diffusion-policy training, Franka/Polymetis evaluation, and magnetic-tactile visualization pipeline used by PrintTac_UMI. It also retains the original Reactive Diffusion Policy components on which this project is built.
@@ -81,7 +81,7 @@ For Franka deployment, complete the local Polymetis and robot setup described in
 
 ## 1. Convert UMI Data
 
-The UMI data can be collected from 
+The UMI data can be collected using the pipeline from https://github.com/pigwu/printtac-capture.
 The converter accepts a UMI/Franka Zarr directory or <code>.zarr.zip</code> archive and writes an RDP-compatible dataset containing <code>replay_buffer.zarr</code>.
 
 ### Recommended conversion
